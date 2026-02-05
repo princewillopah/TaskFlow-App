@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: color-manager-app
+  namespace: taskflow-ns
 spec:
   replicas: 2
   revisionHistoryLimit: 5
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: princewillopah2/color-manager-app_backend:1.1.2 #<ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/color-manager-app-backend:<SHA>
+        image: 016696895968.dkr.ecr.us-east-1.amazonaws.com/taskflow-backend:latest
         ports:
         - containerPort: 3000
         envFrom:
