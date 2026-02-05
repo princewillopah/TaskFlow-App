@@ -69,6 +69,6 @@ jobs:
         run: |
           kubectl apply -f k8s/frontend/ -n taskflow-ns
       
-      - name: Deploy ingress
-        run: |
-          kubectl apply -f k8s/ingress.yaml -n taskflow-ns
+      # - name: Deploy ingress
+      #   run: |
+      #     kubectl apply -f k8s/ingress.yaml -n taskflow-ns
