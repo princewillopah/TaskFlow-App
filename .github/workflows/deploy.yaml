@@ -46,7 +46,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region ${{ env.AWS_REGION }}
 
-      - name: Test kubeconfig
+      - name: Test kubeconfig works
         run: |
             kubectl get ns
 
