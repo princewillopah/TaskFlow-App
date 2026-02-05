@@ -60,7 +60,12 @@ jobs:
           kubectl create secret generic mongo-secret \
             --from-literal=MONGO_URI=${{ env.MONGO_URI }} \
             -n taskflow-ns
-      
+      - name: Print MONGO_URI
+        run: |
+          echo "MONGO_URI=${{ env.MONGO_URI }}"
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        
       - name: Deploy backend
         run: |
           kubectl apply -f k8s/backend/ -n taskflow-ns
