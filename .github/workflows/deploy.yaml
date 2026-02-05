@@ -1,0 +1,48 @@
+# name: Deploy
+
+# on:
+#   push:
+#     branches: [ main ]
+
+# permissions:
+#   id-token: write
+#   contents: read
+
+# env:
+#   AWS_REGION: <REGION>
+#   CLUSTER_NAME: <EKS_NAME>
+#   NAMESPACE: hello
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - uses: aws-actions/configure-aws-credentials@v4
+#       with:
+#         role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/github-eks
+#         aws-region: ${{ env.AWS_REGION }}
+
+#     - uses: docker/setup-buildx-action@v3
+
+#     - run: aws ecr get-login-password | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.${AWS_REGION}.amazonaws.com
+
+#     - run: |
+#         SHA=${GITHUB_SHA}
+#         docker buildx build --platform linux/amd64,linux/arm64 \
+#           -t <ACCOUNT_ID>.dkr.ecr.${AWS_REGION}.amazonaws.com/hello-backend:${SHA} \
+#           -f apps/backend/Dockerfile apps/backend --push
+#         docker buildx build --platform linux/amd64,linux/arm64 \
+#           -t <ACCOUNT_ID>.dkr.ecr.${AWS_REGION}.amazonaws.com/hello-frontend:${SHA} \
+#           -f apps/frontend/Dockerfile apps/frontend --push
+
+#     - run: |
+#         aws eks update-kubeconfig --name $CLUSTER_NAME
+#         sed -i "s/<SHA>/${GITHUB_SHA}/g" k8s/**/**/*.yaml
+#         kubectl apply -f k8s/namespace.yaml
+#         kubectl apply -f k8s/
+
+#     - run: |
+#         kubectl rollout status deploy/backend -n hello --timeout=120s
+#         kubectl rollout status deploy/frontend -n hello --timeout=120s
