@@ -59,7 +59,7 @@ jobs:
           kubectl delete secret mongo-secret -n taskflow-ns --ignore-not-found
           kubectl create secret generic mongo-secret \
             --from-literal=MONGO_URI=${{ env.MONGO_URI }} \
-            -n taskflow-ns
+            --save-config -n taskflow-ns
       - name: Print MONGO_URI
         run: |
           echo "MONGO_URI=${{ env.MONGO_URI }}"
